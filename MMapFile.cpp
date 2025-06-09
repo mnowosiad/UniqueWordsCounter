@@ -11,7 +11,7 @@ MMapFile::MMapFile(const std::filesystem::path& path) :
     data(nullptr)
 {
     fd = ::open(path.c_str(), O_RDONLY);
-    if (fd < 0) throw std::system_error(errno, std::generic_category(), "XDFailed to open file: " + path.string());
+    if (fd < 0) throw std::system_error(errno, std::generic_category(), "Failed to open file: " + path.string());
 
     if (fstat(fd, &st) < 0)
     {

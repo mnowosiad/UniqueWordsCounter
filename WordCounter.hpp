@@ -17,27 +17,36 @@ namespace counter_utils
         std::unordered_set<std::string>& set)
     {
         size_t i = start;
-        
-        while (i < end && data[i] != ' ')
+
+        // If not the first chunk, skip until the next space (to avoid partial word)
+        if (start > 0)
         {
-            i++;
+            while (i < end && data[i] != ' ')
+            {
+                ++i;
+            }
+        }
+        // Skip any spaces (whether first chunk or after skipping partial word)
+        while (i < end && data[i] == ' ')
+        {
+            ++i;
         }
 
         std::string word;
         while (i < end)
-        {
+{
             word.clear();
 
             // Read a word (sequence of non-space characters)
             while (i < end && data[i] != ' ')
-            {
+{
                 word += data[i];
                 i++;
             }
 
             // Insert word into the corresponding shard if it's not empty
             if (!word.empty())
-            {
+{
                 set.insert(std::move(word));
             }
 

@@ -77,13 +77,12 @@ TEST(ProcessChunkTest, RespectsChunkBoundaries) {
     const std::string input = "abc def ghi jkl";
     std::unordered_set<std::string> result;
 
-    // Only include "def"
+    // This chunk starts in the middle of a word ("def"), so it should not extract any word
     size_t start = 4;  // 'd'
     size_t end = 7;    // 'f'
     counter_utils::ProcessChunk(std::span<const char>(input.data(), input.size()), start, end, result);
 
-    EXPECT_EQ(result.size(), 1);
-    EXPECT_TRUE(result.contains("def"));
+    EXPECT_TRUE(result.empty());
 }
 
 TEST(ProcessChunkTest, HandlesTrailingWord) {
