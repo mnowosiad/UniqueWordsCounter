@@ -18,12 +18,18 @@ int main(int argc, char* argv[])
     {
         const std::filesystem::path file_path = argv[1];
         MMapFile file(file_path);                 // Memory-map the input file
-        const auto data = file.Data();            // Get the memory-mapped data as a span
+        auto data = file.Data();            // Get the memory-mapped data as a span
 
         if (data.empty())
         {
             std::cout << "0\n";
             return EXIT_SUCCESS;
+        }
+
+        // Remove trailing new line if present
+        if (data.back() == '\n' || data.back() == '\r')
+        {
+            data = data.subspan(0, data.size() - 1);
         }
 
         // Validate input to ensure only lowercase letters and spaces are present
